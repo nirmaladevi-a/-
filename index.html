@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday</title>
+</head>
+<body>
+    <script>
+    function a() {
+        let age = calcAge();
+        document.body.innerText = age;
+    }
+    function calcAge() {
+        // let bday =  new Date("May 3, 1999 02:05:00");
+        // let bday =  new Date("May 2, 1999 20:35:00");
+        let bday =  new Date(Date.UTC(99, 4, 2, 20, 35, 0));
+        let today = new Date();
+        console.log("Today " + today);
+        console.log("Bday " + bday);
+        let years  = today.getFullYear() - bday.getFullYear();
+        let months;
+        if((today.getMonth() - bday.getMonth()) < 0 ) {
+            months = today.getMonth() - bday.getMonth() + 12;
+            years = years - 1;
+        } else {
+            months = today.getMonth() - bday.getMonth();
+        }
+        let monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        if(leapyear(bday.getFullYear())) {
+            monthDays[1] = 29;
+        }
+        let days;
+        if((today.getDate() - bday.getDate()) < 0 ) {
+            days = today.getDate() - bday.getDate() + monthDays[bday.getMonth()];
+            if((months - 1) < 0 ) {
+                months = 11;
+                years = years - 1;
+            } else {
+                months = months - 1;
+            }
+        } else {
+            days = today.getDate() - bday.getDate();
+        }
+        
+        let hrs;
+        if((today.getHours() - bday.getHours()) < 0 ) {
+            hrs = today.getHours() - bday.getHours() + 24;
+            if((days - 1) < 0 ) {
+                days = monthDays[bday.getMonth()] - 1;
+                if((months - 1) < 0 ) {
+                    months = 11;
+                    years = years - 1;
+                } else {
+                    months = months - 1;
+                }
+            } else {
+                days = days  - 1;
+            }
+        } else {
+            hrs = today.getHours() - bday.getHours();
+        }
+        let min;
+        if((today.getMinutes() - bday.getMinutes()) < 0 ) {
+            min = today.getMinutes() - bday.getMinutes() + 60;
+            if((hrs - 1) < 0) {
+                hrs = 23;
+                if((days - 1) < 0 ) {
+                days = monthDays[bday.getMonth()] - 1;
+                if((months - 1) < 0 ) {
+                    months = 11;
+                    years = years - 1;
+                } else {
+                    months = months - 1;
+                }
+            } else {
+                days = days - 1;
+            }
+
+            } else {
+                hrs = hrs - 1;
+            }
+           
+        } else {
+            min = today.getMinutes() - bday.getMinutes();
+        }
+        let sec    = today.getSeconds() - bday.getSeconds();
+        return years + " years, " + months + " months, " + days + " days, " + hrs + " hours, " + min + " minutes, " + sec + " seconds old\n" + Math.round((today-bday)/1000) + " seconds old";
+    }
+    function leapyear(year)
+    {
+        return (year % 100 === 0) ? (year % 400 === 0) : (year % 4 === 0);
+    }
+
+    setInterval(a, 1000);
+    </script>
+</body>
+</html>
